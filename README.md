@@ -50,3 +50,8 @@ aws lambda update-function-code --region sa-east-1 --function-name my-function \
     --image-uri <ECR Image URI>   \
 
 ```
+
+## FAQ
+
+### Cleanup disk space for docker images
+https://docs.docker.com/config/pruning/
