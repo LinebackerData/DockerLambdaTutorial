@@ -2,14 +2,16 @@ import json
 import boto3
 import pandas as pd
 import os
+from summify import sum_my_df
 
 
 def handler(event, context):
     print("Event:", event)
-    print("Context:", event)
+    print("Context:", context)
 
-    s3_client = boto3.client("s3")
-    s3_url = event['url']
+    # print the file using boto and s3
+    s3_url = event["url"]
+    file_number = event.get("file_number", "")
     s3_url_split = s3_url.replace("s3://", "").split("/", maxsplit=1)
     print(f"{s3_url=}")
     bucket_name, key = s3_url_split
@@ -17,25 +19,23 @@ def handler(event, context):
 
     # note that we can just read directly
     df = pd.read_csv(s3_url)
-    print(df.to_markdown())
+    print(df.to_csv())
 
-    df2 = df.sum()
-    print(df2.to_markdown())
+    # do something non-trival...in this case just sum()
+    # and use another module while we are at it
+    df2 = sum_my_df(df)
+    print(df2.to_csv())
 
-    s3_url_output = s3_url.replace("/test.csv", "/test_output.csv")
+    # let's create some output
+    output_replace = f"/test_output{file_number}.csv.gz"
+
+    s3_url_output = s3_url.replace("/test.csv", output_replace)
 
     df2.to_csv(s3_url_output, index=False)
 
-
-
-    data = s3_client.get_object(Bucket=bucket_name, Key=key)["Body"].read().decode()
-
     return {
-        "event": str(event),
-        "context": str(context),
-        "hello": "world",
         "s3_url": s3_url,
-        "data": data,
+        "s3_url_output": s3_url_output,
     }
 
 

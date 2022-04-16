@@ -1,5 +1,6 @@
 # DockerLambdaTutorial
 
+
 ## Installation
 
 ### Docker
@@ -26,7 +27,23 @@ Follow instruction for [Create an image from an AWS base image for Lambda
 ## Deploy
 https://docs.aws.amazon.com/lambda/latest/dg/configuration-images.html
 
+## Publish to ECR
+```
+# Build the image
+docker build -t hello-pandas .
 
+# Create repository
+aws ecr create-repository --repository-name lambda-container-demo --image-scanning-configuration scanOnPush=true
+
+# Tag it
+docker tag lambda-container-demo:latest 123412341234.dkr.ecr.eu-west-1.amazonaws.com/lambda-container-demo:latest
+
+# Login
+aws --region eu-west-1 ecr get-login-password | docker login --username AWS --password-stdin 123412341234.dkr.ecr.eu-west-1.amazonaws.com
+
+# Push the image
+docker push 123412341234.dkr.ecr.eu-west-1.amazonaws.com/lambda-container-demo:latest
+```
 ## Creating a Function
 https://docs.aws.amazon.com/lambda/latest/dg/configuration-images.html
 
@@ -55,3 +72,6 @@ aws lambda update-function-code --region sa-east-1 --function-name my-function \
 
 ### Cleanup disk space for docker images
 https://docs.docker.com/config/pruning/
+
+## Resources
+https://aripalo.com/blog/2020/aws-lambda-container-image-support/
