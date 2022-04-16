@@ -20,3 +20,5 @@ Based on this, we will create a Dockerfile
 Follow instruction for [Create an image from an AWS base image for Lambda
 ] at https://docs.aws.amazon.com/lambda/latest/dg/images-create.html
 
+## Deploy
+https://docs.aws.amazon.com/lambda/latest/dg/configuration-images.html
