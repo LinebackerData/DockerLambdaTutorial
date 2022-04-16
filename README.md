@@ -16,3 +16,7 @@ Resources:
 - This is where we find the images: https://gallery.ecr.aws/lambda/python
 
 Based on this, we will create a Dockerfile
+
+Follow instruction for [Create an image from an AWS base image for Lambda
+] at https://docs.aws.amazon.com/lambda/latest/dg/images-create.html
+
